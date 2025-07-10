@@ -1,0 +1,94 @@
+{
+  "animateLoading": true,
+  "backgroundColor": "white",
+  "borderColor": "#E0DEDE",
+  "borderRadius": "{{appsmith.theme.borderRadius.appBorderRadius}}",
+  "borderWidth": "1",
+  "bottomRow": 8,
+  "boxShadow": "{{appsmith.theme.boxShadow.appBoxShadow}}",
+  "children": [
+    {
+      "bottomRow": 80,
+      "canExtend": false,
+      "containerStyle": "none",
+      "detachFromLayout": true,
+      "displayName": "Canvas",
+      "dynamicBindingPathList": [],
+      "flexLayers": [],
+      "hideCard": true,
+      "isDeprecated": false,
+      "isLoading": false,
+      "isVisible": true,
+      "key": "rn28p55il2",
+      "leftColumn": 0,
+      "minWidth": 450,
+      "mobileLeftColumn": 0,
+      "mobileTopRow": 0,
+      "parentColumnSpace": 1,
+      "parentId": "mxplplsj2g",
+      "parentRowSpace": 1,
+      "renderMode": "CANVAS",
+      "responsiveBehavior": "fill",
+      "topRow": 0,
+      "type": "CANVAS_WIDGET",
+      "useAutoLayout": false,
+      "version": 1,
+      "widgetId": "b1p8njleih",
+      "widgetName": "Canvas5"
+    }
+  ],
+  "containerStyle": "card",
+  "disabledWidgetFeatures": [
+    "dynamicHeight"
+  ],
+  "disallowCopy": true,
+  "displayName": "Container",
+  "dragDisabled": true,
+  "dynamicBindingPathList": [
+    {
+      "key": "borderRadius"
+    },
+    {
+      "key": "boxShadow"
+    }
+  ],
+  "dynamicHeight": "FIXED",
+  "flexVerticalAlignment": "start",
+  "hideCard": false,
+  "iconSVG": "https://appcdn.appsmith.com/static/media/icon.daebf68875b6c8e909e9e8ac8bee0c02.svg",
+  "isCanvas": true,
+  "isDeletable": false,
+  "isDeprecated": false,
+  "isListItemContainer": true,
+  "isLoading": false,
+  "isVisible": true,
+  "key": "oktrd1qm4q",
+  "leftColumn": 0,
+  "maxDynamicHeight": 9000,
+  "minDynamicHeight": 10,
+  "minWidth": 450,
+  "mobileBottomRow": 12,
+  "mobileLeftColumn": 0,
+  "mobileRightColumn": 64,
+  "mobileTopRow": 0,
+  "noContainerOffset": true,
+  "parentId": "feqdn0ixbv",
+  "positioning": "fixed",
+  "renderMode": "CANVAS",
+  "responsiveBehavior": "fill",
+  "rightColumn": 64,
+  "searchTags": [
+    "div",
+    "parent",
+    "group"
+  ],
+  "shouldScrollContents": false,
+  "tags": [
+    "Layout"
+  ],
+  "topRow": 0,
+  "type": "CONTAINER_WIDGET",
+  "version": 1,
+  "widgetId": "mxplplsj2g",
+  "widgetName": "con_todayTask"
+}

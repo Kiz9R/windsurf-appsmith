@@ -1,0 +1,50 @@
+{
+  "animateLoading": true,
+  "borderRadius": "{{appsmith.theme.borderRadius.appBorderRadius}}",
+  "bottomRow": 5,
+  "boxShadow": "none",
+  "buttonColor": "#d4d4d8",
+  "buttonVariant": "TERTIARY",
+  "displayName": "Icon button",
+  "dynamicBindingPathList": [
+    {
+      "key": "borderRadius"
+    }
+  ],
+  "dynamicHeight": "FIXED",
+  "dynamicTriggerPathList": [],
+  "hideCard": false,
+  "iconName": "time",
+  "iconSVG": "https://appcdn.appsmith.com/static/media/icon.b08054586989b185a0801e9a34f8ad49.svg",
+  "isDeprecated": false,
+  "isDisabled": false,
+  "isLoading": false,
+  "isVisible": true,
+  "key": "apbtv4fobn",
+  "leftColumn": 37,
+  "minWidth": 50,
+  "mobileBottomRow": 37,
+  "mobileLeftColumn": 46,
+  "mobileRightColumn": 50,
+  "mobileTopRow": 33,
+  "originalBottomRow": 19,
+  "originalTopRow": 15,
+  "parentColumnSpace": 12.069091796875,
+  "parentId": "b1p8njleih",
+  "parentRowSpace": 10,
+  "renderMode": "CANVAS",
+  "responsiveBehavior": "hug",
+  "rightColumn": 39,
+  "searchTags": [
+    "click",
+    "submit"
+  ],
+  "tags": [
+    "Buttons"
+  ],
+  "topRow": 1,
+  "type": "ICON_BUTTON_WIDGET",
+  "version": 1,
+  "widgetId": "d9etu9b09e",
+  "widgetName": "icn_todayTaksDue"
+}

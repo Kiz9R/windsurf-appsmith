@@ -1,0 +1,74 @@
+{
+  "accentColor": "{{appsmith.theme.colors.primaryColor}}",
+  "animateLoading": true,
+  "borderRadius": "{{appsmith.theme.borderRadius.appBorderRadius}}",
+  "bottomRow": 22,
+  "boxShadow": "none",
+  "defaultOptionValue": "{{ ((options, serverSideFiltering) => ( utils.selectedTask ? utils.selectedTask.priority : ''))(sel_updateTaskPriority.options, sel_updateTaskPriority.serverSideFiltering) }}",
+  "displayName": "Select",
+  "dynamicBindingPathList": [
+    {
+      "key": "accentColor"
+    },
+    {
+      "key": "borderRadius"
+    },
+    {
+      "key": "defaultOptionValue"
+    }
+  ],
+  "dynamicHeight": "FIXED",
+  "dynamicPropertyPathList": [
+    {
+      "key": "sourceData"
+    }
+  ],
+  "dynamicTriggerPathList": [],
+  "hideCard": false,
+  "iconSVG": "https://appcdn.appsmith.com/static/media/icon.a7b19dc8b31d68fcff57f1d2c0084a18.svg",
+  "isDeprecated": false,
+  "isDisabled": false,
+  "isFilterable": true,
+  "isLoading": false,
+  "isRequired": false,
+  "isVisible": true,
+  "key": "7edlq6wt3w",
+  "labelAlignment": "left",
+  "labelPosition": "Top",
+  "labelText": "Priority",
+  "labelTextSize": "0.875rem",
+  "labelWidth": 5,
+  "leftColumn": 2,
+  "maxDynamicHeight": 9000,
+  "minDynamicHeight": 4,
+  "minWidth": 450,
+  "mobileBottomRow": 42,
+  "mobileLeftColumn": 10,
+  "mobileRightColumn": 30,
+  "mobileTopRow": 35,
+  "optionLabel": "name",
+  "optionValue": "code",
+  "originalBottomRow": 22,
+  "originalTopRow": 15,
+  "parentColumnSpace": 6.9375,
+  "parentId": "2cl05tsyql",
+  "parentRowSpace": 10,
+  "placeholderText": "Select priority",
+  "renderMode": "CANVAS",
+  "responsiveBehavior": "fill",
+  "rightColumn": 30,
+  "searchTags": [
+    "dropdown"
+  ],
+  "serverSideFiltering": false,
+  "sourceData": "[\n  {\n    \"name\": \"High\",\n    \"code\": \"HIGH\"\n  },\n  {\n    \"name\": \"Medium\",\n    \"code\": \"MEDIUM\"\n  },\n  {\n    \"name\": \"Low\",\n    \"code\": \"LOW\"\n  }\n]",
+  "tags": [
+    "Suggested",
+    "Select"
+  ],
+  "topRow": 15,
+  "type": "SELECT_WIDGET",
+  "version": 1,
+  "widgetId": "3pgqqwh2ib",
+  "widgetName": "sel_updateTaskPriority"
+}

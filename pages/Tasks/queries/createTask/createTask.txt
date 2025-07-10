@@ -1,0 +1,2 @@
+INSERT INTO todo_task ("id", "title", "priority", "status", "is_complete", "comment", "deadline")
+VALUES ({{this.params.id}}, '{{inp_updateTaskTitle.text}}', 'LOW', 'pending', false, '', '{{dat_updateTaskDeadline.formattedDate}}');

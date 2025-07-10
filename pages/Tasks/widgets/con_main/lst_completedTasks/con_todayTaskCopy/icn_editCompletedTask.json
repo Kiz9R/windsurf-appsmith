@@ -1,0 +1,53 @@
+{
+  "animateLoading": true,
+  "borderRadius": "{{appsmith.theme.borderRadius.appBorderRadius}}",
+  "bottomRow": 5,
+  "boxShadow": "none",
+  "buttonColor": "#a1a1aa",
+  "buttonVariant": "TERTIARY",
+  "displayName": "Icon button",
+  "dynamicBindingPathList": [
+    {
+      "key": "borderRadius"
+    }
+  ],
+  "dynamicHeight": "FIXED",
+  "dynamicTriggerPathList": [
+    {
+      "key": "onClick"
+    }
+  ],
+  "hideCard": false,
+  "iconName": "edit",
+  "iconSVG": "https://appcdn.appsmith.com/static/media/icon.b08054586989b185a0801e9a34f8ad49.svg",
+  "isDeprecated": false,
+  "isDisabled": false,
+  "isLoading": false,
+  "isVisible": true,
+  "key": "9xu7j2zb10",
+  "leftColumn": 57,
+  "minWidth": 50,
+  "mobileBottomRow": 17,
+  "mobileLeftColumn": 25,
+  "mobileRightColumn": 29,
+  "mobileTopRow": 13,
+  "onClick": "{{showModal('mdl_editTask');\nutils.setSelectedTask(lst_completedTasks.triggeredItem);}}",
+  "parentColumnSpace": 17.3447265625,
+  "parentId": "ki3uovt1s7",
+  "parentRowSpace": 10,
+  "renderMode": "CANVAS",
+  "responsiveBehavior": "hug",
+  "rightColumn": 60,
+  "searchTags": [
+    "click",
+    "submit"
+  ],
+  "tags": [
+    "Buttons"
+  ],
+  "topRow": 1,
+  "type": "ICON_BUTTON_WIDGET",
+  "version": 1,
+  "widgetId": "j5twruq9bv",
+  "widgetName": "icn_editCompletedTask"
+}

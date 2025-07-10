@@ -1,0 +1,75 @@
+{
+  "accentColor": "{{appsmith.theme.colors.primaryColor}}",
+  "animateLoading": true,
+  "borderRadius": "{{appsmith.theme.borderRadius.appBorderRadius}}",
+  "bottomRow": 22,
+  "boxShadow": "none",
+  "closeOnSelection": true,
+  "dateFormat": "LLL",
+  "datePickerType": "DATE_PICKER",
+  "defaultDate": "{{utils.selectedTask ? utils.selectedTask.deadline : ''}}",
+  "displayName": "DatePicker",
+  "dynamicBindingPathList": [
+    {
+      "key": "accentColor"
+    },
+    {
+      "key": "borderRadius"
+    },
+    {
+      "key": "defaultDate"
+    }
+  ],
+  "dynamicHeight": "FIXED",
+  "dynamicPropertyPathList": [
+    {
+      "key": "defaultDate"
+    }
+  ],
+  "dynamicTriggerPathList": [],
+  "firstDayOfWeek": 0,
+  "hideCard": false,
+  "iconSVG": "https://appcdn.appsmith.com/static/media/icon.c0c4b770ee1862b73198267331d1611c.svg",
+  "isDeprecated": false,
+  "isDisabled": false,
+  "isLoading": false,
+  "isRequired": false,
+  "isVisible": true,
+  "key": "38bl0pf86y",
+  "label": "Deadline",
+  "labelAlignment": "left",
+  "labelPosition": "Top",
+  "labelTextSize": "0.875rem",
+  "labelWidth": 5,
+  "leftColumn": 31,
+  "maxDate": "2121-12-31T18:29:00.000Z",
+  "maxDynamicHeight": 9000,
+  "minDate": "1920-12-31T18:30:00.000Z",
+  "minDynamicHeight": 4,
+  "minWidth": 450,
+  "mobileBottomRow": 33,
+  "mobileLeftColumn": 28,
+  "mobileRightColumn": 48,
+  "mobileTopRow": 26,
+  "originalBottomRow": 22,
+  "originalTopRow": 15,
+  "parentColumnSpace": 6.9375,
+  "parentId": "2cl05tsyql",
+  "parentRowSpace": 10,
+  "renderMode": "CANVAS",
+  "responsiveBehavior": "fill",
+  "rightColumn": 62,
+  "searchTags": [
+    "calendar"
+  ],
+  "shortcuts": false,
+  "tags": [
+    "Inputs"
+  ],
+  "timePrecision": "minute",
+  "topRow": 15,
+  "type": "DATE_PICKER_WIDGET2",
+  "version": 2,
+  "widgetId": "h1lhscilhp",
+  "widgetName": "dat_updateTaskDeadline"
+}
