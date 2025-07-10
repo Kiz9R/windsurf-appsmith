@@ -188,5 +188,22 @@ export default {
     // Initialize the tasks
     initialize: function() {
         return this.getAllTasks(true);
+    },
+    
+    // Page load function - call this when the page loads
+    onPageLoad: function() {
+        // Initialize tasks
+        this.initialize();
+        
+        // Reset selected task
+        this.setSelectedTask(null);
+        
+        // Set default list state if not already set
+        if (!this.listState) {
+            this.setListState(this.LIST_STATES.TODAY);
+        }
+        
+        // Return success
+        return { success: true, message: "Tasks page initialized successfully" };
     }
 }

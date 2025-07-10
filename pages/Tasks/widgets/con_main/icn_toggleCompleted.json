@@ -38,7 +38,7 @@
   "mobileLeftColumn": 15,
   "mobileRightColumn": 19,
   "mobileTopRow": 62,
-  "onClick": "{{utils.toggleShowCompleted();}}",
+  "onClick": "{{utils.toggleShowCompleted().then(() => utils.getAllTasks(true));}}",
   "originalBottomRow": 164,
   "originalTopRow": 160,
   "parentColumnSpace": 17.3447265625,

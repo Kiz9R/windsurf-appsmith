@@ -36,7 +36,7 @@
   "mobileLeftColumn": 21,
   "mobileRightColumn": 37,
   "mobileTopRow": 8,
-  "onClick": "{{showModal('mdl_editTask');}}",
+  "onClick": "{{utils.setSelectedTask(null); showModal('mdl_editTask');}}",
   "originalBottomRow": 21,
   "originalTopRow": 17,
   "parentColumnSpace": 17.3447265625,

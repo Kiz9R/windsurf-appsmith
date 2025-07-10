@@ -91,7 +91,7 @@
   "itemSpacing": 8,
   "key": "7dzuh1hooz",
   "leftColumn": 1,
-  "listData": "{{utils.listState === 'today' ? utils.getTodaysTasks.data : utils.listState === 'pending' ? utils.getPendingTasks.data : utils.getOverdueTasks.data}}",
+  "listData": "{{utils.getFilteredTasks().data}}",
   "mainCanvasId": "feqdn0ixbv",
   "mainContainerId": "mxplplsj2g",
   "minWidth": 450,
