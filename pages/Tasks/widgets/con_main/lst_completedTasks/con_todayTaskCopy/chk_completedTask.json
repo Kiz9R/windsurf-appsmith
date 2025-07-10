@@ -43,7 +43,7 @@
   "mobileLeftColumn": 1,
   "mobileRightColumn": 13,
   "mobileTopRow": 2,
-  "onCheckChange": "{{utils.setSelectedTask(lst_completedTasks.triggeredItem);\nupdateTaskIsComplete.run().then(() => {\n  showAlert('Task Status Updated!', 'success');\n  utils.getTodaysTasks();\n  utils.getCompletedTasks();\n  utils.getPendingTasks();\n  utils.getOverdueTasks();\n}).catch(() => {\n  showAlert('Error updating task status', 'error');\n});}}",
+  "onCheckChange": "{{utils.handleTaskToggle(lst_completedTasks.triggeredItem)}}",
   "originalBottomRow": 6,
   "originalTopRow": 2,
   "parentColumnSpace": 5.0537109375,

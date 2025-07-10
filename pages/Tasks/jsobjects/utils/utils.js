@@ -219,6 +219,28 @@ export default {
             });
     },
     
+    // Handler for task toggle checkbox (to avoid if-else in widget handlers)
+    handleTaskToggle: function(triggeredItem) {
+        // Set the selected task
+        this.setSelectedTask(triggeredItem);
+        
+        // Toggle the task completion
+        return this.toggleTaskCompletion(triggeredItem.id)
+            .then((result) => {
+                // Show success alert
+                result.success 
+                    ? showAlert('Task Status Updated!', 'success') 
+                    : showAlert('Error updating task status: ' + (result.error || 'Unknown error'), 'error');
+                
+                // Refresh tasks list
+                return result.success ? this.getAllTasks(true) : result;
+            })
+            .catch(() => {
+                showAlert('Error updating task status', 'error');
+                return { success: false };
+            });
+    },
+    
     // State Management
     setListState: function(listState) {
         if (Object.values(this.LIST_STATES).includes(listState)) {
@@ -277,5 +299,46 @@ export default {
             console.error('Error parsing date:', dateString, e);
             return null;
         }
+    },
+    
+    // Combined function to save a task (create or update)
+    saveTask: function() {
+        // Get form values
+        const taskData = {
+            title: inp_updateTaskTitle.text,
+            description: inp_updateTaskComment.text,
+            dueDate: dat_updateTaskDeadline.formattedDate,
+            priority: sel_updateTaskPriority.selectedOptionValue
+        };
+        
+        // Determine if this is an update or create operation
+        const isUpdate = this.selectedTask !== null;
+        
+        // Call the appropriate function
+        let promise;
+        
+        if (isUpdate) {
+            promise = this.updateTask(this.selectedTask.id, taskData);
+        } else {
+            promise = this.createTask(taskData);
+        }
+        
+        // Handle the result
+        return promise.then((result) => {
+            if (result.success) {
+                const action = isUpdate ? 'updated' : 'created';
+                showAlert(`Task ${action} successfully!`, 'success');
+                closeModal('mdl_editTask');
+                return this.getAllTasks(true);
+            } else {
+                const action = isUpdate ? 'updating' : 'creating';
+                showAlert(`Error ${action} task: ${result.error || 'Unknown error'}`, 'error');
+                return result;
+            }
+        }).catch(error => {
+            const action = isUpdate ? 'updating' : 'creating';
+            showAlert(`Error ${action} task`, 'error');
+            return { success: false, error: error.message || 'Unknown error' };
+        });
     }
 }
