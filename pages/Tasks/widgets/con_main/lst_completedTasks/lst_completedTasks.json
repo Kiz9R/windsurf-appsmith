@@ -99,7 +99,7 @@
   "itemSpacing": 8,
   "key": "7dzuh1hooz",
   "leftColumn": 1,
-  "listData": "{{utils.listState === 'completed' ? utils.getFilteredTasks().data : utils.getFilteredTasks().data.filter(task => task.status === 'completed')}}",
+  "listData": "{{utils.listState === 'completed' ? utils.getFilteredTasks().data : utils.getFilteredTasks().data.filter(task => task.is_complete)}}",
   "mainCanvasId": "kmhu25erry",
   "mainContainerId": "u5qotff5ui",
   "minWidth": 450,

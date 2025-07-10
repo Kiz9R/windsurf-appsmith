@@ -20,26 +20,37 @@ export default {
         COMPLETED: 'completed',
         ALL: 'all'
     },
+    
+    // Debug function to log the current state
+    logState: function() {
+        console.log('Current state:', {
+            selectedTask: this.selectedTask,
+            showCompleted: this.showCompleted,
+            listState: this.listState,
+            taskCount: this.tasks ? this.tasks.length : 0
+        });
+        return true;
+    },
 
     // CRUD Operations
     
     // Create a new task
     createTask: function(taskData) {
+        // Generate a random ID for the new task
+        const newId = Math.floor(Math.random() * 10000) + 1;
+        
+        // The createTask query uses form field values directly
+        // We just need to set the ID parameter
         return createTask.run({
-            title: taskData.title,
-            description: taskData.description || '',
-            dueDate: taskData.dueDate || null,
-            priority: taskData.priority || 'medium',
-            status: 'pending',
-            createdAt: new Date().toISOString(),
-            updatedAt: new Date().toISOString()
+            id: newId
         }).then(response => {
-            if (response && response.id) {
-                return this.getAllTasks().then(() => {
-                    return { success: true, data: response };
-                });
-            }
-            return { success: false, error: 'Failed to create task' };
+            return this.getAllTasks(true).then(() => {
+                const newTask = this.tasks.find(t => t.id === newId);
+                if (newTask) {
+                    return { success: true, data: newTask };
+                }
+                return { success: true, data: response || { id: newId } };
+            });
         }).catch(error => {
             console.error('Error creating task:', error);
             return { success: false, error: error.message };
@@ -51,6 +62,13 @@ export default {
         if (this.tasks.length === 0 || forceRefresh) {
             return getAllTasks.run().then(response => {
                 this.tasks = Array.isArray(response) ? response : [];
+                // Map database fields to our expected format if needed
+                this.tasks = this.tasks.map(task => ({
+                    ...task,
+                    status: task.is_complete ? 'completed' : 'pending',
+                    dueDate: task.deadline,
+                    description: task.comment
+                }));
                 return this.getFilteredTasks();
             }).catch(error => {
                 console.error('Error fetching tasks:', error);
@@ -66,49 +84,70 @@ export default {
         let filteredTasks = [...this.tasks];
         const today = new Date().toISOString().split('T')[0];
         
+        // Handle null or undefined tasks array
+        if (!filteredTasks || filteredTasks.length === 0) {
+            return { success: true, data: [] };
+        }
+        
         switch (this.listState) {
             case this.LIST_STATES.TODAY:
-                filteredTasks = filteredTasks.filter(task => 
-                    task.dueDate === today && 
-                    task.status !== 'archived'
-                );
+                filteredTasks = filteredTasks.filter(task => {
+                    // Check if deadline is today (if it exists)
+                    if (!task || !task.deadline) return false;
+                    const taskDate = typeof task.deadline === 'string' ? task.deadline.split('T')[0] : null;
+                    return taskDate === today && !task.is_complete;
+                });
                 break;
                 
             case this.LIST_STATES.UPCOMING:
-                filteredTasks = filteredTasks.filter(task => 
-                    task.dueDate > today && 
-                    task.status !== 'archived'
-                );
+                filteredTasks = filteredTasks.filter(task => {
+                    // Check if deadline is in the future (if it exists)
+                    if (!task || !task.deadline) return false;
+                    const taskDate = typeof task.deadline === 'string' ? task.deadline.split('T')[0] : null;
+                    return taskDate && taskDate > today && !task.is_complete;
+                });
                 break;
                 
             case this.LIST_STATES.COMPLETED:
-                filteredTasks = filteredTasks.filter(task => 
-                    task.status === 'completed'
-                );
+                filteredTasks = filteredTasks.filter(task => task && task.is_complete);
                 break;
                 
             case this.LIST_STATES.ALL:
             default:
-                filteredTasks = filteredTasks.filter(task => 
-                    task.status !== 'archived'
-                );
+                // Show all tasks
+                filteredTasks = filteredTasks.filter(task => task !== null && task !== undefined);
         }
         
-        // Sort tasks by due date and priority
+        // Sort tasks by completion status, due date and priority
         filteredTasks.sort((a, b) => {
-            // Sort by status (pending first)
-            if (a.status !== b.status) {
-                return a.status === 'pending' ? -1 : 1;
+            // Handle null or undefined values
+            if (!a) return 1;
+            if (!b) return -1;
+            
+            // Sort by completion status (incomplete first)
+            if (a.is_complete !== b.is_complete) {
+                return a.is_complete ? 1 : -1;
             }
             
-            // Then by due date
-            if (a.dueDate !== b.dueDate) {
-                return new Date(a.dueDate) - new Date(b.dueDate);
+            // Then by due date if available
+            if (a.deadline && b.deadline && a.deadline !== b.deadline) {
+                try {
+                    return new Date(a.deadline) - new Date(b.deadline);
+                } catch (e) {
+                    // If date parsing fails, just compare strings
+                    return String(a.deadline).localeCompare(String(b.deadline));
+                }
             }
+            
+            // Tasks with deadlines come before tasks without deadlines
+            if (a.deadline && !b.deadline) return -1;
+            if (!a.deadline && b.deadline) return 1;
             
             // Then by priority (high to low)
-            const priorityOrder = { high: 1, medium: 2, low: 3 };
-            return priorityOrder[a.priority] - priorityOrder[b.priority];
+            const priorityOrder = { HIGH: 1, MEDIUM: 2, LOW: 3 };
+            const aPriority = a.priority && priorityOrder[a.priority] ? priorityOrder[a.priority] : 2;
+            const bPriority = b.priority && priorityOrder[b.priority] ? priorityOrder[b.priority] : 2;
+            return aPriority - bPriority;
         });
         
         return { success: true, data: filteredTasks };
@@ -121,18 +160,22 @@ export default {
             return Promise.resolve({ success: false, error: 'Task not found' });
         }
         
-        const updatedTask = {
-            ...this.tasks[taskIndex],
-            ...updateData,
-            updatedAt: new Date().toISOString()
-        };
+        // Set the selected task for the query
+        // The query will directly use the form field values
+        this.setSelectedTask(this.tasks[taskIndex]);
         
-        return updateTask.run(updatedTask).then(response => {
-            if (response && response.id) {
-                this.tasks[taskIndex] = response;
-                return { success: true, data: response };
-            }
-            return { success: false, error: 'Failed to update task' };
+        // Make sure the form fields are populated with the task data
+        // This is handled by the modal's onOpen event
+        
+        // Run the update query
+        return updateTask.run().then(response => {
+            return this.getAllTasks(true).then(() => {
+                const updatedTask = this.tasks.find(t => t.id === taskId);
+                if (updatedTask) {
+                    return { success: true, data: updatedTask };
+                }
+                return { success: false, error: 'Failed to update task' };
+            });
         }).catch(error => {
             console.error('Error updating task:', error);
             return { success: false, error: error.message };
@@ -153,12 +196,27 @@ export default {
             return Promise.resolve({ success: false, error: 'Task not found' });
         }
         
-        const newStatus = task.status === 'completed' ? 'pending' : 'completed';
+        // Set the selected task for the query
+        this.setSelectedTask(task);
         
-        return this.updateTask(taskId, { 
-            status: newStatus,
-            completedAt: newStatus === 'completed' ? new Date().toISOString() : null
-        });
+        // Run the update query
+        return updateTaskIsComplete.run()
+            .then(response => {
+                // Force refresh the tasks list
+                return this.getAllTasks(true);
+            })
+            .then(() => {
+                // Find the updated task
+                const updatedTask = this.tasks.find(t => t.id === taskId);
+                if (updatedTask) {
+                    return { success: true, data: updatedTask };
+                }
+                return { success: false, error: 'Failed to toggle task completion' };
+            })
+            .catch(error => {
+                console.error('Error toggling task completion:', error);
+                return { success: false, error: error.message || 'Unknown error' };
+            });
     },
     
     // State Management
@@ -203,7 +261,21 @@ export default {
             this.setListState(this.LIST_STATES.TODAY);
         }
         
+        // Log the initial state for debugging
+        this.logState();
+        
         // Return success
         return { success: true, message: "Tasks page initialized successfully" };
+    },
+    
+    // Helper function to safely parse dates
+    parseDate: function(dateString) {
+        if (!dateString) return null;
+        try {
+            return new Date(dateString);
+        } catch (e) {
+            console.error('Error parsing date:', dateString, e);
+            return null;
+        }
     }
 }

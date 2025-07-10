@@ -43,7 +43,7 @@
   "mobileLeftColumn": 1,
   "mobileRightColumn": 13,
   "mobileTopRow": 2,
-  "onCheckChange": "{{utils.setSelectedTask(lst_todayTasks.triggeredItem);\nutils.toggleTaskCompletion(lst_todayTasks.triggeredItem.id).then((result) => {\n  if (result.success) {\n    showAlert('Task Status Updated!', 'success');\n    utils.getAllTasks(true);\n  } else {\n    showAlert('Error updating task status: ' + result.error, 'error');\n  }\n}).catch((error) => {\n  showAlert('Error updating task status', 'error');\n});}}",
+  "onCheckChange": "{{utils.setSelectedTask(lst_todayTasks.triggeredItem);\nutils.toggleTaskCompletion(lst_todayTasks.triggeredItem.id).then((result) => {\n  if (result.success) {\n    showAlert('Task Status Updated!', 'success');\n    utils.getAllTasks(true);\n  } else {\n    showAlert('Error updating task status: ' + (result.error || 'Unknown error'), 'error');\n  }\n}).catch((error) => {\n  showAlert('Error updating task status', 'error');\n});}}",
   "originalBottomRow": 6,
   "originalTopRow": 2,
   "parentColumnSpace": 5.0537109375,
