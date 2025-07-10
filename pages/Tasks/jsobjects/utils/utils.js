@@ -1,6 +1,6 @@
-// Task Management Utilities
+// Task Management Utilities for Appsmith
 export default {
-    // State management
+    // State management properties
     selectedTask: null,
     showCompleted: true,
     listState: 'today',
@@ -24,159 +24,141 @@ export default {
     // CRUD Operations
     
     // Create a new task
-    createTask: async (taskData) => {
-        try {
-            const response = await createTask.run({
-                title: taskData.title,
-                description: taskData.description || '',
-                dueDate: taskData.dueDate || null,
-                priority: taskData.priority || 'medium',
-                status: this.TASK_STATUS.PENDING,
-                createdAt: new Date().toISOString(),
-                updatedAt: new Date().toISOString()
-            });
-            
+    createTask: function(taskData) {
+        return createTask.run({
+            title: taskData.title,
+            description: taskData.description || '',
+            dueDate: taskData.dueDate || null,
+            priority: taskData.priority || 'medium',
+            status: 'pending',
+            createdAt: new Date().toISOString(),
+            updatedAt: new Date().toISOString()
+        }).then(response => {
             if (response && response.id) {
-                await this.getAllTasks();
-                return { success: true, data: response };
+                return this.getAllTasks().then(() => {
+                    return { success: true, data: response };
+                });
             }
             return { success: false, error: 'Failed to create task' };
-        } catch (error) {
+        }).catch(error => {
             console.error('Error creating task:', error);
             return { success: false, error: error.message };
-        }
+        });
     },
     
     // Read all tasks
-    getAllTasks: async (forceRefresh = false) => {
-        try {
-            if (this.tasks.length === 0 || forceRefresh) {
-                const response = await getAllTasks.run();
+    getAllTasks: function(forceRefresh) {
+        if (this.tasks.length === 0 || forceRefresh) {
+            return getAllTasks.run().then(response => {
                 this.tasks = Array.isArray(response) ? response : [];
-            }
-            
-            // Filter tasks based on current list state
-            let filteredTasks = [...this.tasks];
-            const today = new Date().toISOString().split('T')[0];
-            
-            switch (this.listState) {
-                case this.LIST_STATES.TODAY:
-                    filteredTasks = filteredTasks.filter(task => 
-                        task.dueDate === today && 
-                        task.status !== this.TASK_STATUS.ARCHIVED
-                    );
-                    break;
-                    
-                case this.LIST_STATES.UPCOMING:
-                    filteredTasks = filteredTasks.filter(task => 
-                        task.dueDate > today && 
-                        task.status !== this.TASK_STATUS.ARCHIVED
-                    );
-                    break;
-                    
-                case this.LIST_STATES.COMPLETED:
-                    filteredTasks = filteredTasks.filter(task => 
-                        task.status === this.TASK_STATUS.COMPLETED
-                    );
-                    break;
-                    
-                case this.LIST_STATES.ALL:
-                default:
-                    filteredTasks = filteredTasks.filter(task => 
-                        task.status !== this.TASK_STATUS.ARCHIVED
-                    );
-            }
-            
-            // Sort tasks by due date and priority
-            filteredTasks.sort((a, b) => {
-                // Sort by status (pending first)
-                if (a.status !== b.status) {
-                    return a.status === this.TASK_STATUS.PENDING ? -1 : 1;
-                }
-                
-                // Then by due date
-                if (a.dueDate !== b.dueDate) {
-                    return new Date(a.dueDate) - new Date(b.dueDate);
-                }
-                
-                // Then by priority (high to low)
-                const priorityOrder = { high: 1, medium: 2, low: 3 };
-                return priorityOrder[a.priority] - priorityOrder[b.priority];
+                return this.getFilteredTasks();
+            }).catch(error => {
+                console.error('Error fetching tasks:', error);
+                return { success: false, error: error.message };
             });
-            
-            return { success: true, data: filteredTasks };
-            
-        } catch (error) {
-            console.error('Error fetching tasks:', error);
-            return { success: false, error: error.message };
+        } else {
+            return Promise.resolve(this.getFilteredTasks());
         }
     },
     
-    // Update a task
-    updateTask: async (taskId, updateData) => {
-        try {
-            const taskIndex = this.tasks.findIndex(t => t.id === taskId);
-            if (taskIndex === -1) {
-                return { success: false, error: 'Task not found' };
+    // Get filtered tasks based on current list state
+    getFilteredTasks: function() {
+        let filteredTasks = [...this.tasks];
+        const today = new Date().toISOString().split('T')[0];
+        
+        switch (this.listState) {
+            case this.LIST_STATES.TODAY:
+                filteredTasks = filteredTasks.filter(task => 
+                    task.dueDate === today && 
+                    task.status !== 'archived'
+                );
+                break;
+                
+            case this.LIST_STATES.UPCOMING:
+                filteredTasks = filteredTasks.filter(task => 
+                    task.dueDate > today && 
+                    task.status !== 'archived'
+                );
+                break;
+                
+            case this.LIST_STATES.COMPLETED:
+                filteredTasks = filteredTasks.filter(task => 
+                    task.status === 'completed'
+                );
+                break;
+                
+            case this.LIST_STATES.ALL:
+            default:
+                filteredTasks = filteredTasks.filter(task => 
+                    task.status !== 'archived'
+                );
+        }
+        
+        // Sort tasks by due date and priority
+        filteredTasks.sort((a, b) => {
+            // Sort by status (pending first)
+            if (a.status !== b.status) {
+                return a.status === 'pending' ? -1 : 1;
             }
             
-            const updatedTask = {
-                ...this.tasks[taskIndex],
-                ...updateData,
-                updatedAt: new Date().toISOString()
-            };
+            // Then by due date
+            if (a.dueDate !== b.dueDate) {
+                return new Date(a.dueDate) - new Date(b.dueDate);
+            }
             
-            const response = await updateTask.run(updatedTask);
-            
+            // Then by priority (high to low)
+            const priorityOrder = { high: 1, medium: 2, low: 3 };
+            return priorityOrder[a.priority] - priorityOrder[b.priority];
+        });
+        
+        return { success: true, data: filteredTasks };
+    },
+    
+    // Update a task
+    updateTask: function(taskId, updateData) {
+        const taskIndex = this.tasks.findIndex(t => t.id === taskId);
+        if (taskIndex === -1) {
+            return Promise.resolve({ success: false, error: 'Task not found' });
+        }
+        
+        const updatedTask = {
+            ...this.tasks[taskIndex],
+            ...updateData,
+            updatedAt: new Date().toISOString()
+        };
+        
+        return updateTask.run(updatedTask).then(response => {
             if (response && response.id) {
                 this.tasks[taskIndex] = response;
                 return { success: true, data: response };
             }
-            
             return { success: false, error: 'Failed to update task' };
-            
-        } catch (error) {
+        }).catch(error => {
             console.error('Error updating task:', error);
             return { success: false, error: error.message };
-        }
+        });
     },
     
-    // Delete a task
-    deleteTask: async (taskId) => {
-        try {
-            // In a real app, you would call an API to delete the task
-            // For this example, we'll just update the status to archived
-            return await this.updateTask(taskId, { status: this.TASK_STATUS.ARCHIVED });
-            
-        } catch (error) {
-            console.error('Error deleting task:', error);
-            return { success: false, error: error.message };
-        }
+    // Delete a task (soft delete by archiving)
+    deleteTask: function(taskId) {
+        // In a real app, you might want to call a delete API
+        // For this example, we'll just update the status to archived
+        return this.updateTask(taskId, { status: 'archived' });
     },
     
     // Toggle task completion status
-    toggleTaskCompletion: async (taskId) => {
-        try {
-            const task = this.tasks.find(t => t.id === taskId);
-            if (!task) {
-                return { success: false, error: 'Task not found' };
-            }
-            
-            const newStatus = task.status === this.TASK_STATUS.COMPLETED 
-                ? this.TASK_STATUS.PENDING 
-                : this.TASK_STATUS.COMPLETED;
-                
-            return await this.updateTask(taskId, { 
-                status: newStatus,
-                completedAt: newStatus === this.TASK_STATUS.COMPLETED 
-                    ? new Date().toISOString() 
-                    : null
-            });
-            
-        } catch (error) {
-            console.error('Error toggling task completion:', error);
-            return { success: false, error: error.message };
+    toggleTaskCompletion: function(taskId) {
+        const task = this.tasks.find(t => t.id === taskId);
+        if (!task) {
+            return Promise.resolve({ success: false, error: 'Task not found' });
         }
+        
+        const newStatus = task.status === 'completed' ? 'pending' : 'completed';
+        
+        return this.updateTask(taskId, { 
+            status: newStatus,
+            completedAt: newStatus === 'completed' ? new Date().toISOString() : null
+        });
     },
     
     // State Management
@@ -204,7 +186,7 @@ export default {
     },
     
     // Initialize the tasks
-    initialize: async function() {
-        return await this.getAllTasks(true);
+    initialize: function() {
+        return this.getAllTasks(true);
     }
-};
+}
