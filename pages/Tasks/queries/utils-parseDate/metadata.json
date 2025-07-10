@@ -1,6 +1,6 @@
 {
-  "gitSyncId": "686f8cb345cdae34ee1afba1_f95e30b8-3651-4b34-a1ac-87da17243d11",
-  "id": "Tasks_utils.setListState",
+  "gitSyncId": "686f90591e05f26da4df0c0b_81422a87-c48e-4654-816f-4fdda2f7ec87",
+  "id": "Tasks_utils.parseDate",
   "pluginId": "js-plugin",
   "pluginType": "JS",
   "unpublishedAction": {
@@ -8,7 +8,7 @@
       "encodeParamsToggle": true,
       "jsArguments": [
         {
-          "name": "listState"
+          "name": "dateString"
         }
       ],
       "paginationType": "NONE",
@@ -26,8 +26,8 @@
         "key": "body"
       }
     ],
-    "fullyQualifiedName": "utils.setListState",
-    "name": "setListState",
+    "fullyQualifiedName": "utils.parseDate",
+    "name": "parseDate",
     "pageId": "Tasks",
     "runBehaviour": "MANUAL",
     "userSetOnLoad": false

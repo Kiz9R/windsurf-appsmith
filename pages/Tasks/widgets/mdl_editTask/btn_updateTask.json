@@ -1,7 +1,7 @@
 {
   "animateLoading": true,
   "borderRadius": "{{appsmith.theme.borderRadius.appBorderRadius}}",
-  "bottomRow": 38,
+  "bottomRow": 41,
   "boxShadow": "none",
   "buttonColor": "{{appsmith.theme.colors.primaryColor}}",
   "buttonStyle": "PRIMARY_BUTTON",
@@ -61,7 +61,7 @@
     "Buttons"
   ],
   "text": "{{utils.selectedTask ? 'Update Task' : \"Add Task\"}}",
-  "topRow": 34,
+  "topRow": 37,
   "type": "BUTTON_WIDGET",
   "version": 1,
   "widgetId": "78mzodndjd",

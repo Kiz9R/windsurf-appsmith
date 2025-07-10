@@ -17,6 +17,9 @@
   "dynamicPropertyPathList": [
     {
       "key": "iconName"
+    },
+    {
+      "key": "onClick"
     }
   ],
   "dynamicTriggerPathList": [

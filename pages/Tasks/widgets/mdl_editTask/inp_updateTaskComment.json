@@ -3,7 +3,7 @@
   "animateLoading": true,
   "autoFocus": false,
   "borderRadius": "{{appsmith.theme.borderRadius.appBorderRadius}}",
-  "bottomRow": 32,
+  "bottomRow": 35,
   "boxShadow": "none",
   "defaultText": "{{utils.selectedTask ? utils.selectedTask.comment : ''}}",
   "displayName": "Input",
@@ -66,7 +66,7 @@
     "Suggested",
     "Inputs"
   ],
-  "topRow": 22,
+  "topRow": 25,
   "type": "INPUT_WIDGET_V2",
   "version": 2,
   "widgetId": "16cihst0cj",

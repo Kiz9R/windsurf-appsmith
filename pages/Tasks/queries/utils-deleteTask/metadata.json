@@ -1,12 +1,16 @@
 {
-  "gitSyncId": "686f8cb345cdae34ee1afba1_68cb4828-1b9f-4299-bd35-bc5180d57111",
-  "id": "Tasks_utils.toggleShowCompleted",
+  "gitSyncId": "686f90591e05f26da4df0c0b_3f89af0a-07ba-4001-a984-5da616176889",
+  "id": "Tasks_utils.deleteTask",
   "pluginId": "js-plugin",
   "pluginType": "JS",
   "unpublishedAction": {
     "actionConfiguration": {
       "encodeParamsToggle": true,
-      "jsArguments": [],
+      "jsArguments": [
+        {
+          "name": "taskId"
+        }
+      ],
       "paginationType": "NONE",
       "timeoutInMillisecond": 10000
     },
@@ -22,8 +26,8 @@
         "key": "body"
       }
     ],
-    "fullyQualifiedName": "utils.toggleShowCompleted",
-    "name": "toggleShowCompleted",
+    "fullyQualifiedName": "utils.deleteTask",
+    "name": "deleteTask",
     "pageId": "Tasks",
     "runBehaviour": "MANUAL",
     "userSetOnLoad": false

@@ -9,7 +9,7 @@
     "variables": [
       {
         "name": "selectedTask",
-        "value": "undefined"
+        "value": "null"
       },
       {
         "name": "showCompleted",
@@ -18,6 +18,18 @@
       {
         "name": "listState",
         "value": "'today'"
+      },
+      {
+        "name": "tasks",
+        "value": "[]"
+      },
+      {
+        "name": "TASK_STATUS",
+        "value": "{\n  PENDING: 'pending',\n  COMPLETED: 'completed',\n  ARCHIVED: 'archived'\n}"
+      },
+      {
+        "name": "LIST_STATES",
+        "value": "{\n  TODAY: 'today',\n  PENDING: 'pending',\n  OVERDUE: 'overdue',\n  UPCOMING: 'upcoming',\n  COMPLETED: 'completed',\n  ALL: 'all'\n}"
       }
     ]
   }

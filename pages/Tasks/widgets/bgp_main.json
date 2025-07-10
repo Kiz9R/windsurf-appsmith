@@ -33,6 +33,12 @@
     },
     {
       "key": "groupButtons.groupButton3.buttonColor"
+    },
+    {
+      "key": "groupButtons.groupButton2.onClick"
+    },
+    {
+      "key": "groupButtons.groupButton3.onClick"
     }
   ],
   "dynamicTriggerPathList": [
